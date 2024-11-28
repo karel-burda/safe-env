@@ -1,19 +1,33 @@
 #include "safe_env/safe_env.hpp"
 
-#include <caasert>
+#include <cassert>
 
 using namespace burda;
 
 namespace
 {
-int test()
+void test_single_threaded()
 {
     env::setenv("foo", "value", 1);
+    
     assert(env::get_env("foo"), "value");
+    
+    env::setenv("foo", "value", 0);
+    
+    assert(env::get_env("foo"), "value");
+    
+    env::setenv("foo", "value2", 1);
+
+    assert(env::get_env("foo"), "value");
+}
+
+void test_multi_threaded()
+{
 }
 } // namespace anonymous
 
 int main([[maybe_unused]] const int argc, [[maybe_unused]] const char** argv)
 {
-  return test();
+    test_single_threaded();
+    test_multi_threaded();
 }
