@@ -10,15 +10,15 @@ void test_single_threaded()
 {
     env::setenv("foo", "value", 1);
     
-    assert(env::get_env("foo"), "value");
+    assert(env::get_env("foo") == "value");
     
     env::setenv("foo", "value", 0);
     
-    assert(env::get_env("foo"), "value");
+    assert(env::get_env("foo") == "value");
     
     env::setenv("foo", "value2", 1);
 
-    assert(env::get_env("foo"), "value");
+    assert(env::get_env("foo") == "value");
 }
 
 void test_multi_threaded()
