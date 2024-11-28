@@ -2,6 +2,12 @@
 
 using namespace burda;
 
-int main(const int argc, const char* argv)
+int test()
 {
+    env::set("foo", "value", 1);
+}
+
+int main([[maybe_unsed]] const int argc, [[maybe_unused]] const char** argv)
+{
+  return test();
 }
