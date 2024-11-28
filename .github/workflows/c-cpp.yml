@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: g++
+        run: |
+             g++ --version && \
+             g++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
+
+  static_analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: clang-tidy
+        run: |
+             clang-tidy --version && \
+             clang-tidy include/safe_env/safe_env.hpp main.cpp --checks="*,-llvmlibc-*,-modernize-use-trailing-return-type" --warnings-as-errors="*" -- -I include -std=c++20
+
+  documentation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: doxygen
+        run: sudo apt-get install -y doxygen && doxygen --version && doxygen .doxygen  
