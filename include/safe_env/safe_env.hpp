@@ -34,7 +34,7 @@ template<typename F>
 std::string read(const std::string& name, const F getter);
 
 template<typename F, typename... Args>
-int write(const std::string& name, const F setter, Args&&... args);
+void write(const std::string& name, const F setter, Args&&... args);
 } // namespace burda::env::detail
 } // namespace burda::env
 
