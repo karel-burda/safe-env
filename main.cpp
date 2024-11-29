@@ -1,5 +1,7 @@
 #include "safe_env/safe_env.hpp"
 
+#undef NDEBUG
+
 #include <cassert>
 
 using namespace burda;
