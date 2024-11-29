@@ -50,7 +50,7 @@ std::string burda::env::secure_getenv(const std::string& name)
 
 void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
 {
-    burda::env::detail::write(name, ::setenv, value, static_cast<int>(overwrite));
+    burda::env::detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
 }
 
 void burda::env::unsetenv(const std::string& name)
