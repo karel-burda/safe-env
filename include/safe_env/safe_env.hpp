@@ -28,7 +28,7 @@ inline void unsetenv(const std::string& name);
 
 namespace detail
 {
-inline const std::shared_mutex mtx;
+inline std::shared_mutex mtx;
 
 template<typename F>
 std::string read(const std::string& name, F getter);
