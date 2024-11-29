@@ -88,7 +88,7 @@ void burda::env::detail::write(const std::string& name, const F setter, Args&&..
 
     std::unique_lock write_lock{mtx};
 
-    if (const int ret = setter(std::forward<Args>(args)...)) [[unlikely]]
+    if (const int ret = setter(name, std::forward<Args>(args)...)) [[unlikely]]
     {
         // we can unlock, as errno is thread-safe
         write_lock.unlock();
