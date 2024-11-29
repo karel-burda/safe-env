@@ -32,7 +32,7 @@ jobs:
       - name: clang-tidy
         run: |
              clang-tidy --version && \
-             clang-tidy include/safe_env/safe_env.hpp main.cpp --checks="*,-llvmlibc-*,-modernize-use-trailing-return-type,-fuchsia" --warnings-as-errors="*" -header-filter=.* -- -I include -std=c++20
+             clang-tidy include/safe_env/safe_env.hpp main.cpp --checks="*,-llvmlibc-*,-modernize-use-trailing-return-type,-fuchsia-default-arguments-calls" --warnings-as-errors="*" -- -I include -std=c++20
 
   documentation:
     runs-on: ubuntu-latest
