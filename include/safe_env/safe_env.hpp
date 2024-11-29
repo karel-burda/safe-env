@@ -1,5 +1,5 @@
-#ifndef BURDA_SAFE_ENV_HPP
-#define BURDA_SAFE_ENV_HPP
+#ifndef SAFE_ENV_SAFE_ENV_HPP
+#define SAFE_ENV_SAFE_ENV_HPP
 
 #include <cerrno>
 #include <cstdlib>
@@ -12,9 +12,9 @@
 
 namespace burda::env
 {
-std::string getenv(const std::string& name);
+inline std::string getenv(const std::string& name);
 
-std::string secure_getenv(const std::string& name);
+inline std::string secure_getenv(const std::string& name);
 
 /// @brief Searches for a given key, aimed to return associated value with it.
 /// @param key key to be searched for
@@ -22,20 +22,20 @@ std::string secure_getenv(const std::string& name);
 /// @throws 
 /// @details Deliberately not throwing an exception, and returning pair instead,
 ///          as this generates much shorter assembly on clang and msvc
-void setenv(const std::string& name, const std::string& value, bool overwrite);
+inline void setenv(const std::string& name, const std::string& value, bool overwrite);
 
-void unsetenv(const std::string& name);
+inline void unsetenv(const std::string& name);
 
 namespace detail
 {
-inline std::shared_mutex mtx;
+inline const std::shared_mutex mtx;
 
 template<typename F>
-std::string read(const std::string& name, const F getter);
+std::string read(const std::string& name, F getter);
 
 template<typename F, typename... Args>
-void write(const std::string& name, const F setter, Args&&... args);
-} // namespace burda::env::detail
+void write(const std::string& name, F setter, Args&&... args);
+} // namespace detail
 } // namespace burda::env
 
 std::string burda::env::getenv(const std::string& name)
@@ -97,4 +97,4 @@ void burda::env::detail::write(const std::string& name, const F setter, Args&&..
     }
 }
 
-#endif // BURDA_SAFE_ENV_HPP
+#endif // SAFE_ENV_SAFE_ENV_HPP
