@@ -16,7 +16,7 @@ jobs:
       - name: g++
         run: |
              g++ --version && \
-             g++ main.cpp safe_env.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
+             g++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
 
   static_analysis:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
       - name: clang-tidy
         run: |
              clang-tidy --version && \
-             clang-tidy include/safe_env/safe_env.hpp main.cpp safe_env.cpp --checks="*,-llvmlibc-*,-modernize-use-trailing-return-type" --warnings-as-errors="*" -- -I include -std=c++20
+             clang-tidy include/safe_env/safe_env.hpp main.cpp --checks="*,-llvmlibc-*,-modernize-use-trailing-return-type" --warnings-as-errors="*" -- -I include -std=c++20
 
   documentation:
     runs-on: ubuntu-latest
