@@ -49,40 +49,7 @@ namespace detail
 inline std::shared_mutex mtx;
 
 template<typename F>
-std::string read(const std::string& name, F getter);
-
-template<typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args);
-} // namespace detail
-} // namespace burda::env
-
-std::string burda::env::getenv(const std::string& name)
-{
-    return burda::env::detail::read(name, ::getenv);
-}
-
-std::string burda::env::secure_getenv(const std::string& name)
-{
-    return burda::env::detail::read(name, ::secure_getenv);
-}
-
-void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
-{
-    burda::env::detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
-}
-
-void burda::env::unsetenv(const std::string& name)
-{
-   burda::env::detail::write(name, ::unsetenv);
-}
-
-void burda::env::putenv(const std::string& key_value_pairs)
-{
-    burda::env::detail::write(name, ::putenv, key_value_pairs.c_str());
-}
-
-template<typename F>
-std::string burda::env::detail::read(const std::string& name, const F getter)
+std::string read(const std::string& name, F getter)
 {
     if (name.empty()) [[unlikely]]
     {
@@ -101,12 +68,15 @@ std::string burda::env::detail::read(const std::string& name, const F getter)
     return {};
 }
 
-template<typename F, typename... Args>
-void burda::env::detail::write(const std::string& name, const F setter, Args&&... args)
+template<bool check_name, typename F, typename... Args>
+void write(const std::string& name, F setter, Args&&... args);
 {
-    if (name.empty()) [[unlikely]]
+    if constexpr (check_name)
     {
-        throw std::invalid_argument{"Environment variable name is empty"};
+        if (name.empty()) [[unlikely]]
+        {
+            throw std::invalid_argument{"Environment variable name is empty"};
+        }
     }
 
     std::unique_lock write_lock{mtx};
@@ -118,6 +88,33 @@ void burda::env::detail::write(const std::string& name, const F setter, Args&&..
 
         throw std::system_error{errno, std::generic_category(), "Failed to set environment variable " + name};
     }
+}
+} // namespace detail
+} // namespace burda::env
+
+std::string burda::env::getenv(const std::string& name)
+{
+    return burda::env::detail::read(name, ::getenv);
+}
+
+std::string burda::env::secure_getenv(const std::string& name)
+{
+    return burda::env::detail::read(name, ::secure_getenv);
+}
+
+void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
+{
+    burda::env::detail::write<true>(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
+}
+
+void burda::env::unsetenv(const std::string& name)
+{
+   burda::env::detail::write<true>(name, ::unsetenv);
+}
+
+void burda::env::putenv(const std::string& key_value_pairs)
+{
+    burda::env::detail::write<false>({}, ::putenv, key_value_pairs.c_str());
 }
 
 #endif // SAFE_ENV_SAFE_ENV_HPP
