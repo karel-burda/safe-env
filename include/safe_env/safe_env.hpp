@@ -14,6 +14,7 @@
 namespace burda::env
 {
 /// @brief Reads environment variable using "getenv" in a thread-safe manner.
+/// @param name name of environment variable
 /// @return Environment variable value or an empty string
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline std::string getenv(const std::string& name);
@@ -23,10 +24,14 @@ inline std::string getenv(const std::string& name);
 inline std::string secure_getenv(const std::string& name);
 
 /// @brief Sets environment variable using "setenv" in a thread-safe manner.
+/// @param name name of environment variable
+/// @param value desired value
+/// @param overwrite do we want to overwrite an existing value?
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline void setenv(const std::string& name, const std::string& value, bool overwrite);
 
 /// @brief Unsets environment variable using "unsetenv" in a thread-safe manner.
+/// @param name name of environment variable to be removed/unset
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline void unsetenv(const std::string& name);
 
