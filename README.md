@@ -23,10 +23,10 @@ Implemented and documented at the [safe_env.hpp](include/safe_env/safe_env.hpp).
 #include <safe_env/safe_env.hpp>
 
 // all functions are safe to be called from different threads
-burda::env::setenv("name", "value", true /* to overwrite any actual environment variable */)
-burda::env::setenv("name", "value2", false /* will not overwrite */)
-burda::env::getenv("name"); // returns std::string "name"
-burda::env::unsetenv("name", "another value");
+burda::env::setenv("name", "value", true /* to overwrite any actual environment variable */);
+burda::env::setenv("name", "value2", false /* will not overwrite */);
+burda::env::getenv("name"); // returns std::string "value"
+burda::env::unsetenv("name");
 burda::env::getenv("name"); // returns an empty std::string
 ```
 
