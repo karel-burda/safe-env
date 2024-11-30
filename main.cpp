@@ -39,6 +39,7 @@ void test_multi_threaded()
     const auto duration = std::chrono::seconds{30};
     std::atomic_bool run { true };
 
+    // NOLINT(altera-unroll-loops)
     auto setter = std::async(std::launch::async, [&]()
     {
         std::size_t iterations = 0;
@@ -59,6 +60,8 @@ void test_multi_threaded()
     run = false;
 
     assert(setter.get() > 0);
+
+    assert((env::getenv("key").empty()) || (env::getenv("key") == "value"));
 }
 } // namespace
 
