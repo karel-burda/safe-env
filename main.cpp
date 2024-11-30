@@ -2,6 +2,7 @@
 
 #undef NDEBUG
 
+#include <atomic>
 #include <cassert>
 #include <chrono>
 #include <future>
@@ -36,12 +37,13 @@ void test_single_threaded()
 void test_multi_threaded()
 {
     const auto duration = std::chrono::seconds{30};
+    std::atomic_bool run { true };
 
     auto setter = std::async(std::launch::async, [&]()
     {
         std::size_t iterations = 0;
 
-        while(true)
+        while(run)
         {
             env::setenv("key", "value", true);
             ++iterations;
@@ -53,6 +55,8 @@ void test_multi_threaded()
     });
 
     std::this_thread::sleep_for(duration);
+
+    run = false;
 
     assert(setter.get() > 0);
 }
