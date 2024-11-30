@@ -83,7 +83,7 @@ inline void write(F setter, Args&&... args)
         // we can unlock, as errno is thread-safe
         write_lock.unlock();
 
-        throw std::system_error{errno, std::generic_category(), "Failed to set environment variable " + name};
+        throw std::system_error{errno, std::generic_category(), "Failed modify environment variable(s)"};
     }
 }
 } // namespace detail
@@ -101,21 +101,21 @@ std::string burda::env::secure_getenv(const std::string& name)
 
 void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
 {
-    throw_if_empty(name);
+    burda::env::detail::throw_if_empty(name);
 
     burda::env::detail::write<true>(::setenv, name, value.c_str(), static_cast<int>(overwrite));
 }
 
 void burda::env::unsetenv(const std::string& name)
 {
-    throw_if_empty(name);
+    burda::env::detail::throw_if_empty(name);
 
     burda::env::detail::write<true>(name, ::unsetenv);
 }
 
 void burda::env::putenv(const std::string& key_value_pairs)
 {
-    throw_if_empty(name);
+    burda::env::detail::throw_if_empty(name);
 
     burda::env::detail::write<false>(::putenv, key_value_pairs.c_str());
 }
