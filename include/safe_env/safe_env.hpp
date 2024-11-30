@@ -10,20 +10,24 @@
 #include <system_error>
 #include <utility>
 
+/// @brief Free functions that wrap work with environment variables in a thread-safe manner.
 namespace burda::env
 {
+/// @brief Reads environment variable using "getenv" in a thread-safe manner.
+/// @return Environment variable value or an empty string
+/// @throws std::invalid_argument if name is empty, std::system_error
 inline std::string getenv(const std::string& name);
 
+/// @brief Reads environment variable using "secure_getenv" in a thread-safe manner.
+/// @see burda::env::getenv
 inline std::string secure_getenv(const std::string& name);
 
-/// @brief Searches for a given key, aimed to return associated value with it.
-/// @param key key to be searched for
-/// @return pair, where first denotes whether element was found, second given value
-/// @throws 
-/// @details Deliberately not throwing an exception, and returning pair instead,
-///          as this generates much shorter assembly on clang and msvc
+/// @brief Sets environment variable using "setenv" in a thread-safe manner.
+/// @throws std::invalid_argument if name is empty, std::system_error
 inline void setenv(const std::string& name, const std::string& value, bool overwrite);
 
+/// @brief Unsets environment variable using "unsetenv" in a thread-safe manner.
+/// @throws std::invalid_argument if name is empty, std::system_error
 inline void unsetenv(const std::string& name);
 
 namespace detail
