@@ -21,6 +21,7 @@ inline std::string getenv(const std::string& name);
 
 /// @brief Reads environment variable using "secure_getenv" in a thread-safe manner.
 /// @param name name of environment variable
+/// @return Environment variable value or an empty string
 /// @see burda::env::getenv
 inline std::string secure_getenv(const std::string& name);
 
