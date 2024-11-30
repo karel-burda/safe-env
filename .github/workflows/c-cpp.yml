@@ -22,8 +22,8 @@ jobs:
       - name: clang++
         run: |
              clang++ --version
-             clang++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror -o test
-             ./test
+             clang++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
+             ./a.out
 
   static_analysis:
     runs-on: ubuntu-latest
