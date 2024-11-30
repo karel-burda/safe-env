@@ -28,6 +28,8 @@ inline void unsetenv(const std::string& name);
 
 namespace detail
 {
+// due to performance reasons, we don't want to make this a static local variable
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 inline std::shared_mutex mtx;
 
 template<typename F>
