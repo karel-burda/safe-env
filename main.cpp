@@ -4,21 +4,21 @@
 
 #include <cassert>
 
-using namespace burda;
-
 namespace
 {
 void test_single_threaded()
 {
-    env::setenv("foo", "value", 1);
+    using namespace burda;
+
+    env::setenv("foo", "value", true);
     
     assert(env::getenv("foo") == "value");
     
-    env::setenv("foo", "value", 0);
+    env::setenv("foo", "value", false);
     
     assert(env::getenv("foo") == "value");
     
-    env::setenv("foo", "value2", 1);
+    env::setenv("foo", "value2", true);
 
     assert(env::getenv("foo") == "value");
 }
@@ -26,7 +26,7 @@ void test_single_threaded()
 void test_multi_threaded()
 {
 }
-} // namespace anonymous
+} // namespace
 
 int main([[maybe_unused]] const int argc, [[maybe_unused]] const char** argv)
 {
