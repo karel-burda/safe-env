@@ -15,7 +15,7 @@ jobs:
 
       - name: g++
         run: |
-             g++ --version && \
+             g++ --version
              g++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
              ./a.out
   
