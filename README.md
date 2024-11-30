@@ -1,5 +1,6 @@
 ![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)
 ![Language](https://img.shields.io/badge/C++20-blue.svg)
+![Standard](https://img.shields.io/badge/POSIX-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)
 ![CI](https://github.com/karel-burda/safe-env/actions/workflows/c-cpp.yml/badge.svg)
 
