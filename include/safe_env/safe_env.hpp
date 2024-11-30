@@ -37,17 +37,55 @@ inline void setenv(const std::string& name, const std::string& value, bool overw
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline void unsetenv(const std::string& name);
 
+/// @brief Sets environment variables using "putenv" in a thread-safe manner.
+/// @param key_value_pairs features string in form of "env1=value1,env2=value2"
+/// @throws std::invalid_argument if name is empty, std::system_error
+inline void putenv(const std::string& key_value_pairs);
+
 namespace detail
 {
 // due to performance reasons, we don't want to make this a static local variable
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 inline std::shared_mutex mtx;
 
+inline void throw_if_empty(const std::string& arg)
+{
+    if (arg.empty()) [[unlikely]]
+    {
+        throw std::invalid_argument{"Argument is empty"};
+    }
+}
+
 template<typename F>
-std::string read(const std::string& name, F getter);
+inline std::string read(const std::string& name, F getter)
+{
+    throw_if_empty(name);
+
+    std::shared_lock read_lock{mtx};
+
+    if (char* result = getter(name.c_str()))
+    {
+        read_lock.unlock();
+
+        return result;
+    }
+
+    return {};
+}
 
 template<typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args);
+inline void write(F setter, Args&&... args)
+{
+    std::unique_lock write_lock{mtx};
+
+    if (const int ret = setter(std::forward<Args>(args)...)) [[unlikely]]
+    {
+        // we can unlock, as errno is thread-safe
+        write_lock.unlock();
+
+        throw std::system_error{errno, std::generic_category(), "Failed modify environment variable(s)"};
+    }
+}
 } // namespace detail
 } // namespace burda::env
 
@@ -63,51 +101,23 @@ std::string burda::env::secure_getenv(const std::string& name)
 
 void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
 {
-    burda::env::detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
+    burda::env::detail::throw_if_empty(name);
+
+    burda::env::detail::write(::setenv, name, value.c_str(), static_cast<int>(overwrite));
 }
 
 void burda::env::unsetenv(const std::string& name)
 {
-   burda::env::detail::write(name, ::unsetenv);
+    burda::env::detail::throw_if_empty(name);
+
+    burda::env::detail::write(name, ::unsetenv);
 }
 
-template<typename F>
-std::string burda::env::detail::read(const std::string& name, const F getter)
+void burda::env::putenv(const std::string& key_value_pairs)
 {
-    if (name.empty()) [[unlikely]]
-    {
-        throw std::invalid_argument{"Environment variable name is empty"};
-    }
+    burda::env::detail::throw_if_empty(key_value_pairs);
 
-    std::shared_lock read_lock{mtx};
-
-    if (char* result = getter(name.c_str()))
-    {
-        read_lock.unlock();
-
-        return result;
-    }
-
-    return {};
-}
-
-template<typename F, typename... Args>
-void burda::env::detail::write(const std::string& name, const F setter, Args&&... args)
-{
-    if (name.empty()) [[unlikely]]
-    {
-        throw std::invalid_argument{"Environment variable name is empty"};
-    }
-
-    std::unique_lock write_lock{mtx};
-
-    if (const int ret = setter(name.c_str(), std::forward<Args>(args)...)) [[unlikely]]
-    {
-        // we can unlock, as errno is thread-safe
-        write_lock.unlock();
-
-        throw std::system_error{errno, std::generic_category(), "Failed to set environment variable " + name};
-    }
+    burda::env::detail::write(::putenv, key_value_pairs.c_str());
 }
 
 #endif // SAFE_ENV_SAFE_ENV_HPP

@@ -32,6 +32,10 @@ void test_single_threaded()
     env::unsetenv("foo");
 
     assert(env::getenv("foo").empty());
+
+    env::putenv("foo=value3");
+
+    assert(env::getenv("foo") == "value3");
 }
 
 void test_multi_threaded()
