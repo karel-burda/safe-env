@@ -48,13 +48,18 @@ namespace detail
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 inline std::shared_mutex mtx;
 
-template<typename F>
-std::string read(const std::string& name, F getter)
+inline void throw_if_empty(const std::string& arg)
 {
-    if (name.empty()) [[unlikely]]
+    if (arg.empty()) [[unlikely]]
     {
-        throw std::invalid_argument{"Environment variable name is empty"};
+        throw std::invalid_argument{"Argument is empty"};
     }
+}
+
+template<typename F>
+inline std::string read(const std::string& name, F getter)
+{
+    throw_if_empty(name);
 
     std::shared_lock read_lock{mtx};
 
@@ -68,20 +73,12 @@ std::string read(const std::string& name, F getter)
     return {};
 }
 
-template<bool check_name, typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args)
+template<typename F, typename... Args>
+inline void write(F setter, Args&&... args)
 {
-    if constexpr (check_name)
-    {
-        if (name.empty()) [[unlikely]]
-        {
-            throw std::invalid_argument{"Environment variable name is empty"};
-        }
-    }
-
     std::unique_lock write_lock{mtx};
 
-    if (const int ret = setter(name.c_str(), std::forward<Args>(args)...)) [[unlikely]]
+    if (const int ret = setter(std::forward<Args>(args)...)) [[unlikely]]
     {
         // we can unlock, as errno is thread-safe
         write_lock.unlock();
@@ -104,17 +101,23 @@ std::string burda::env::secure_getenv(const std::string& name)
 
 void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
 {
-    burda::env::detail::write<true>(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
+    throw_if_empty(name);
+
+    burda::env::detail::write<true>(::setenv, name, value.c_str(), static_cast<int>(overwrite));
 }
 
 void burda::env::unsetenv(const std::string& name)
 {
-   burda::env::detail::write<true>(name, ::unsetenv);
+    throw_if_empty(name);
+
+    burda::env::detail::write<true>(name, ::unsetenv);
 }
 
 void burda::env::putenv(const std::string& key_value_pairs)
 {
-    burda::env::detail::write<false>({}, ::putenv, key_value_pairs.c_str());
+    throw_if_empty(name);
+
+    burda::env::detail::write<false>(::putenv, key_value_pairs.c_str());
 }
 
 #endif // SAFE_ENV_SAFE_ENV_HPP
