@@ -8,6 +8,7 @@ namespace
 {
 void test_single_threaded()
 {
+    // NOLINTNEXTLINE
     using namespace burda;
 
     env::setenv("foo", "value", true);
@@ -28,6 +29,7 @@ void test_multi_threaded()
 }
 } // namespace
 
+// NOLINTNEXTLINE(bugprone-exception-escape)
 int main([[maybe_unused]] const int argc, [[maybe_unused]] const char** argv)
 {
     test_single_threaded();
