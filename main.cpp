@@ -54,15 +54,24 @@ void test_multi_threaded()
         return iterations;
     };
 
-    auto setter = std::async(std::launch::async, [&](){ return runner([&](){ env::setenv("key", "value", true); }); });
+    auto setter = std::async(std::launch::async, [&](){ return runner([&]()
+    {
+        env::setenv("key", "value", true);
+    });});
+
+    auto reader = std::async(std::launch::async, [&](){ return runner([&]()
+    {
+        const auto value = env::getenv("key");
+
+        assert(value.empty()) || (value == "value"));
+    });});
 
     std::this_thread::sleep_for(duration);
 
     run = false;
 
     assert(setter.get() > 0);
-
-    assert((env::getenv("key").empty()) || (env::getenv("key") == "value"));
+    assert(reader.get() > 0);
 }
 } // namespace
 
