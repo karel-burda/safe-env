@@ -39,21 +39,24 @@ void test_multi_threaded()
     const auto duration = std::chrono::seconds{30};
     std::atomic_bool run { true };
 
-    // NOLINT(altera-unroll-loops)
-    auto setter = std::async(std::launch::async, [&]()
+    template <typename F>
+    const auto runner = [&](const F function)
     {
         std::size_t iterations = 0;
 
         while(run)
         {
             env::setenv("key", "value", true);
+            function();
             ++iterations;
 
             std::this_thread::yield();
         }
 
         return iterations;
-    });
+    };
+
+    auto setter = std::async(std::launch::async, [&](){ return runner([&](){ env::setenv("key", "value", true); }); });
 
     std::this_thread::sleep_for(duration);
 
