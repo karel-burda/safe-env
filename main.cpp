@@ -35,7 +35,9 @@ void test_single_threaded()
 
 void test_multi_threaded()
 {
-    const auto setter = std::async(std::launch::async, [&]()
+    const auto duration = std::chrono::seconds{30};
+
+    auto setter = std::async(std::launch::async, [&]()
     {
         std::size_t iterations = 0;
 
@@ -50,7 +52,7 @@ void test_multi_threaded()
         return iterations;
     });
 
-    std::this_thread::sleep_for(std::chrono::seconds{30});
+    std::this_thread::sleep_for(duration);
 
     assert(setter.get() > 0);
 }
