@@ -44,7 +44,7 @@ namespace detail
 inline std::shared_mutex mtx;
 
 template<typename F>
-std::string read(const std::string& name, F getter)
+std::string read(const std::string& name, const F getter)
 {
     if (name.empty()) [[unlikely]]
     {
@@ -64,7 +64,7 @@ std::string read(const std::string& name, F getter)
 }
 
 template<typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args)
+void write(const std::string& name, const F setter, Args&&... args)
 {
     if (name.empty()) [[unlikely]]
     {
