@@ -4,13 +4,13 @@
 
 #include <cassert>
 
+// NOLINTNEXTLINE (google-build-using-namespace)
+using namespace burda;
+
 namespace
 {
 void test_single_threaded()
 {
-    // NOLINTNEXTLINE
-    using namespace burda;
-
     env::setenv("foo", "value", true);
     
     assert(env::getenv("foo") == "value");
