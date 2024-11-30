@@ -61,9 +61,9 @@ void test_multi_threaded()
 
     auto reader = std::async(std::launch::async, [&](){ return runner([&]()
     {
-        const auto value = env::getenv("key");
+        const std::string value = env::getenv("key");
 
-        assert(value.empty()) || (value == "value"));
+        assert(value.empty() || value == "value");
     });});
 
     std::this_thread::sleep_for(duration);
