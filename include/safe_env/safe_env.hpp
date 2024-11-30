@@ -37,6 +37,11 @@ inline void setenv(const std::string& name, const std::string& value, bool overw
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline void unsetenv(const std::string& name);
 
+/// @brief Sets environment variables using "putenv" in a thread-safe manner.
+/// @param key_value_pairs features string in form of "env1=value1,env2=value2"
+/// @throws std::invalid_argument if name is empty, std::system_error
+inline void putenv(const std::string& key_value_pairs);
+
 namespace detail
 {
 // due to performance reasons, we don't want to make this a static local variable
@@ -69,6 +74,11 @@ void burda::env::setenv(const std::string& name, const std::string& value, bool 
 void burda::env::unsetenv(const std::string& name)
 {
    burda::env::detail::write(name, ::unsetenv);
+}
+
+void burda::env::putenv(const std::string& key_value_pairs)
+{
+    burda::env::detail::write(name, ::putenv, key_value_pairs.c_str());
 }
 
 template<typename F>
