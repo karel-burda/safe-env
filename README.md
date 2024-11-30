@@ -1,14 +1,15 @@
 ![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)
-![Language](https://img.shields.io/badge/C++2.-blue.svg)
+![Language](https://img.shields.io/badge/C++20-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)
 [![CI](https://github.com/karel-burda/safe-env/actions/workflows/main.yml/badge.svg)](https://github.com/karel-burda/safe-env/actions/workflows/main.yml)
+![example workflow](https://github.com/karel-burda/safe_env/actions/workflows/c-cpp.yml/badge.svg)
 
 # Introduction
 Simple C++ single-header **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
 
 Wrapper throws C++ exceptions in case these OS function fails -- `std::system_error` or if called with wrong arguments (`std::invalid_argument`).
 
-Aim of the wrapper is to make all calls **thread-safe**, which is implemented by internal read-write lock.
+Aim of the wrapper is to make all calls **thread-safe**, which is implemented by an internal read-write lock.
 
 Wrapper implements:
 * `getenv`
@@ -23,7 +24,8 @@ Implemented and documented at the [safe_env.hpp](include/safe_env/safe_env.hpp).
 #include <safe_env/safe_env.hpp>
 
 // all functions are safe to be called from different threads
-burda::env::setenv("name", "value", true /*true denotes to overwrite any actual environment variable */)
+burda::env::setenv("name", "value", true /* to overwrite any actual environment variable */)
+burda::env::setenv("name", "value2", false /* will not overwrite */)
 burda::env::getenv("name"); // returns std::string "name"
 burda::env::unsetenv("name", "another value");
 burda::env::getenv("name"); // returns an empty std::string
