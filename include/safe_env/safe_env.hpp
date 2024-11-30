@@ -44,35 +44,7 @@ namespace detail
 inline std::shared_mutex mtx;
 
 template<typename F>
-std::string read(const std::string& name, F getter);
-
-template<typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args);
-} // namespace detail
-} // namespace burda::env
-
-std::string burda::env::getenv(const std::string& name)
-{
-    return burda::env::detail::read(name, ::getenv);
-}
-
-std::string burda::env::secure_getenv(const std::string& name)
-{
-    return burda::env::detail::read(name, ::secure_getenv);
-}
-
-void burda::env::setenv(const std::string& name, const std::string& value, bool overwrite)
-{
-    burda::env::detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
-}
-
-void burda::env::unsetenv(const std::string& name)
-{
-   burda::env::detail::write(name, ::unsetenv);
-}
-
-template<typename F>
-std::string burda::env::detail::read(const std::string& name, const F getter)
+std::string read(const std::string& name, F getter)
 {
     if (name.empty()) [[unlikely]]
     {
@@ -92,7 +64,7 @@ std::string burda::env::detail::read(const std::string& name, const F getter)
 }
 
 template<typename F, typename... Args>
-void burda::env::detail::write(const std::string& name, const F setter, Args&&... args)
+void write(const std::string& name, F setter, Args&&... args)
 {
     if (name.empty()) [[unlikely]]
     {
@@ -109,5 +81,26 @@ void burda::env::detail::write(const std::string& name, const F setter, Args&&..
         throw std::system_error{errno, std::generic_category(), "Failed to set environment variable " + name};
     }
 }
+} // namespace detail
 
+std::string getenv(const std::string& name)
+{
+    return detail::read(name, ::getenv);
+}
+
+std::string secure_getenv(const std::string& name)
+{
+    return detail::read(name, ::secure_getenv);
+}
+
+void setenv(const std::string& name, const std::string& value, bool overwrite)
+{
+    detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
+}
+
+void unsetenv(const std::string& name)
+{
+    detail::write(name, ::unsetenv);
+}
+} // namespace burda::env
 #endif // SAFE_ENV_SAFE_ENV_HPP
