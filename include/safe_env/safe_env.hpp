@@ -103,21 +103,21 @@ void burda::env::setenv(const std::string& name, const std::string& value, bool 
 {
     burda::env::detail::throw_if_empty(name);
 
-    burda::env::detail::write<true>(::setenv, name, value.c_str(), static_cast<int>(overwrite));
+    burda::env::detail::write(::setenv, name, value.c_str(), static_cast<int>(overwrite));
 }
 
 void burda::env::unsetenv(const std::string& name)
 {
     burda::env::detail::throw_if_empty(name);
 
-    burda::env::detail::write<true>(name, ::unsetenv);
+    burda::env::detail::write(name, ::unsetenv);
 }
 
 void burda::env::putenv(const std::string& key_value_pairs)
 {
-    burda::env::detail::throw_if_empty(name);
+    burda::env::detail::throw_if_empty(key_value_pairs);
 
-    burda::env::detail::write<false>(::putenv, key_value_pairs.c_str());
+    burda::env::detail::write(::putenv, key_value_pairs.c_str());
 }
 
 #endif // SAFE_ENV_SAFE_ENV_HPP
