@@ -66,12 +66,18 @@ void test_multi_threaded()
         assert(value.empty() || value == "value");
     });});
 
+    auto deleter = std::async(std::launch::async, [&](){ return runner([&]()
+    {
+        env::unsetenv("key");
+    });});
+
     std::this_thread::sleep_for(duration);
 
     run = false;
 
     assert(setter.get() > 0);
     assert(reader.get() > 0);
+    assert(deleter.get() > 0);
 }
 } // namespace
 
