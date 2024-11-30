@@ -39,14 +39,12 @@ void test_multi_threaded()
     const auto duration = std::chrono::seconds{30};
     std::atomic_bool run { true };
 
-    template <typename F>
-    const auto runner = [&](const F function)
+    const auto runner = [&](const auto function)
     {
         std::size_t iterations = 0;
 
         while(run)
         {
-            env::setenv("key", "value", true);
             function();
             ++iterations;
 
