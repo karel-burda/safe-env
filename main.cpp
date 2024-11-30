@@ -11,7 +11,7 @@ namespace
 {
 void test_single_threaded()
 {
-    assert(env::getenv("foo") == "");
+    assert(env::getenv("foo").empty());
 
     env::setenv("foo", "value", true);
     
@@ -23,7 +23,7 @@ void test_single_threaded()
     
     env::setenv("foo", "value2", true);
 
-    assert(env::getenv("foo") == "value");
+    assert(env::getenv("foo") == "value2");
 }
 
 void test_multi_threaded()
