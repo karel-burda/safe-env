@@ -11,11 +11,13 @@ namespace
 {
 void test_single_threaded()
 {
+    assert(env::getenv("foo") == "");
+
     env::setenv("foo", "value", true);
     
     assert(env::getenv("foo") == "value");
     
-    env::setenv("foo", "value", false);
+    env::setenv("foo", "value2", false);
     
     assert(env::getenv("foo") == "value");
     
