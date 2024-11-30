@@ -5,6 +5,7 @@
 
 # Introduction
 Simple C++ single-header **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
+`getenv` and `secure_getenv` functions return copy of `std::string`, so the return value might be safely manipulated with.
 
 Wrapper throws C++ exceptions in case these OS function fails -- `std::system_error` or if called with wrong arguments (`std::invalid_argument`).
 
