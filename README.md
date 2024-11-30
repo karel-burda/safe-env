@@ -1,8 +1,7 @@
 ![Version](https://img.shields.io/badge/version-0.9.0-blue.svg)
 ![Language](https://img.shields.io/badge/C++20-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)
-[![CI](https://github.com/karel-burda/safe-env/actions/workflows/main.yml/badge.svg)](https://github.com/karel-burda/safe-env/actions/workflows/main.yml)
-![example workflow](https://github.com/karel-burda/safe_env/actions/workflows/c-cpp.yml/badge.svg)
+![CI](https://github.com/karel-burda/safe-env/actions/workflows/c-cpp.yml/badge.svg)
 
 # Introduction
 Simple C++ single-header **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
