@@ -69,7 +69,7 @@ std::string read(const std::string& name, F getter)
 }
 
 template<bool check_name, typename F, typename... Args>
-void write(const std::string& name, F setter, Args&&... args);
+void write(const std::string& name, F setter, Args&&... args)
 {
     if constexpr (check_name)
     {
