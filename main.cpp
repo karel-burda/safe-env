@@ -15,11 +15,11 @@ namespace
 {
 void test_exceptions()
 {
-    const auto execute_and_expect_exception = [&](auto&& fn, auto&... args)
+    const auto execute_and_expect_exception = [&](auto&& function, auto&... args)
     {
         try
         {
-            fn(args...);
+            function(args...);
         }
         catch (const std::invalid_argument& error)
         {
@@ -33,6 +33,8 @@ void test_exceptions()
     };
 
     execute_and_expect_exception(env::getenv, "");
+    execute_and_expect_exception(env::setenv, "", "value", true);
+    execute_and_expect_exception(env::unsetenv, "");
 }
 
 void test_single_threaded()
