@@ -8,7 +8,7 @@
 Simple C++ single-header **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
 `getenv` and `secure_getenv` functions return copy of `std::string`, so the return value might be safely manipulated with.
 
-Wrapper throws C++ exceptions in case these OS function fails -- `std::system_error` or if called with wrong arguments (`std::invalid_argument`).
+Wrapper throws C++ exceptions: `std::system_error` if OS specific functions failed and `std::invalid_argument` if called with wrong arguments (empty variable name).
 
 Aim of the wrapper is to make all calls **thread-safe**, which is implemented by an internal read-write lock.
 
@@ -25,11 +25,11 @@ Implemented and documented at the [safe_env.hpp](include/safe_env/safe_env.hpp).
 #include <safe_env/safe_env.hpp>
 
 // all functions are safe to be called from different threads
-burda::env::setenv("name", "value", true /* to overwrite any actual environment variable */);
-burda::env::setenv("name", "value2", false /* will not overwrite */);
-burda::env::getenv("name"); // returns std::string "value"
-burda::env::unsetenv("name");
-burda::env::getenv("name"); // returns an empty std::string
+burda::env::setenv("env_name", "env_value", true /* to overwrite any actual environment variable */);
+burda::env::setenv("env_name", "env_value2", false /* will not overwrite */);
+std::string env_value = burda::env::getenv("env_name"); // contains "env_value"
+burda::env::unsetenv("env_name");
+env_value = burda::env::getenv("env_name"); // contains an empty std::string
 ```
 
-See also [main.cpp](main.cpp) for the test.
+See also [main.cpp](main.cpp) for the test example.
