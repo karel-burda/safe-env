@@ -15,7 +15,7 @@ namespace
 {
 void test_exceptions()
 {
-    const auto execute_and_expect_exception = [&](auto&& function, auto&... args)
+    const auto execute_and_expect_exception = [&](auto&& function, auto&&... args)
     {
         try
         {
