@@ -80,19 +80,19 @@ void test_multi_threaded()
 
     auto setter = std::async(std::launch::async, [&](){ return runner([&]()
     {
-        env::setenv("key", "value", true);
+        ::setenv("key", "value", 1);
     });});
 
     auto reader = std::async(std::launch::async, [&](){ return runner([&]()
     {
-        const std::string value = env::getenv("key");
+        const std::string value = ::getenv("key");
 
         assert(value.empty() || value == "value");
     });});
 
     auto deleter = std::async(std::launch::async, [&](){ return runner([&]()
     {
-        env::unsetenv("key");
+        ::unsetenv("key");
     });});
 
     std::this_thread::sleep_for(duration);
