@@ -15,15 +15,15 @@ namespace
 {
 void test_exceptions()
 {
-    const auto execute_and_expect_exception = [&](const auto fn)
+    const auto execute_and_expect_exception = [&](auto&& fn, auto&... args)
     {
         try
         {
-            fn();
+            fn(args...);
         }
         catch (const std::invalid_argument& error)
         {
-            assert(error.what() == "Environment variable name is empty");
+            assert(std::string{error.what()} == "Environment variable name is empty");
         }
         catch (...)
         {
@@ -32,7 +32,7 @@ void test_exceptions()
         }
     };
 
-    execute_and_expect_exception(env::getenv(""));
+    execute_and_expect_exception(env::getenv, "");
 }
 
 void test_single_threaded()
