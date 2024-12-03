@@ -13,6 +13,23 @@ using namespace burda;
 
 namespace
 {
+void test_exceptions()
+{
+    try
+    {
+        env::getenv("");
+    }
+    catch (const std::invalid_argument& error)
+    {
+        assert(error.what() == "test");
+    }
+    catch (...)
+    {
+        // we expect std::invalid_argument
+        assert(false);
+    }
+}
+
 void test_single_threaded()
 {
     assert(env::getenv("foo").empty());
@@ -84,6 +101,7 @@ void test_multi_threaded()
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main([[maybe_unused]] const int argc, [[maybe_unused]] const char** argv)
 {
+    test_exceptions();
     test_single_threaded();
     test_multi_threaded();
 }
