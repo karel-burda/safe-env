@@ -21,7 +21,7 @@ void test_exceptions()
     }
     catch (const std::invalid_argument& error)
     {
-        assert(error.what() == "test");
+        assert(error.what() == "Environment variable name is empty");
     }
     catch (...)
     {
