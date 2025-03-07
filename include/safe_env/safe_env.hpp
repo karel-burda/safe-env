@@ -2,14 +2,13 @@
 #define SAFE_ENV_SAFE_ENV_HPP
 
 #include <cerrno>
-#include <cstdeff>
+#include <cstdef>
 #include <cstdlib>
 #include <mutex>
 #include <shared_mutex>
 #include <stdexcept>
 #include <string>
 #include <system_error>
-#include <stdlib.h>
 #include <utility>
 
 /// @brief Free functions that wrap work with environment variables in a thread-safe manner.
