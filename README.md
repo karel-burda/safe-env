@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
 ![Language](https://img.shields.io/badge/C++20-blue.svg)
 ![Standard](https://img.shields.io/badge/POSIX-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)
@@ -25,7 +25,7 @@ Implemented and documented at the [safe_env.hpp](include/safe_env/safe_env.hpp).
 #include <safe_env/safe_env.hpp>
 
 // all functions are safe to be called from different threads
-burda::env::setenv("env_name", "env_value", true /* to overwrite any actual environment variable */);
+burda::env::setenv("env_name", "env_value", true /* overwrite any actual environment variable */);
 burda::env::setenv("env_name", "env_value2", false /* will not overwrite */);
 std::string env_value = burda::env::getenv("env_name"); // contains "env_value"
 burda::env::unsetenv("env_name");
