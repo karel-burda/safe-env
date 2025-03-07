@@ -53,7 +53,7 @@ std::string read(const std::string& name, const F getter)
 
     std::shared_lock read_lock{mtx};
 
-    if (char* result = getter(name.c_str()))
+    if (char* result = getter(name.c_str())) [[likely]]
     {
         read_lock.unlock();
 
