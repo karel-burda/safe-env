@@ -93,7 +93,7 @@ std::string secure_getenv(const std::string& name)
     return detail::read(name, ::secure_getenv);
 }
 
-void setenv(const std::string& name, const std::string& value, bool overwrite)
+void setenv(const std::string& name, const std::string& value, const bool overwrite)
 {
     detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
 }
