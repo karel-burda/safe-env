@@ -4,6 +4,7 @@
 
 #include <atomic>
 #include <cassert>
+#include <cstdint>
 #include <chrono>
 #include <future>
 #include <thread>
