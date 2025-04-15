@@ -61,19 +61,21 @@ void write(const std::string& name, const F setter, Args&&... args)
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 std::string getenv(const std::string& name)
 {
-    // NOLINTNEXTLINE(misc-include-cleaner); this is in the <cstdlib>
+    // NOLINTNEXTLINE(misc-include-cleaner); the "getenv" is in the <cstdlib>
     return detail::read(name, ::getenv);
 }
 
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 std::string secure_getenv(const std::string& name)
 {
+    // NOLINTNEXTLINE(misc-include-cleaner); the "secure_getenv" is in the <cstdlib>
     return detail::read(name, ::secure_getenv);
 }
 
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 void setenv(const std::string& name, const std::string& value, bool overwrite)
 {
+    // NOLINTNEXTLINE(misc-include-cleaner); the "setenv" is in the <cstdlib>
     detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
 }
 
