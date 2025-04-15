@@ -4,9 +4,10 @@
 
 #include <atomic>
 #include <cassert>
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 #include <future>
+#include <stdexcept>
 #include <thread>
 
 // NOLINTNEXTLINE (google-build-using-namespace)
