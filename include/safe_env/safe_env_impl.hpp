@@ -56,23 +56,28 @@ void write(const std::string& name, const F setter, Args&&... args)
         throw std::system_error{errno, std::generic_category(), "Failed to set environment variable " + name};
     }
 }
-} // namespace burda::env::detail
+} // namespace detail
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 std::string getenv(const std::string& name)
 {
+    // NOLINTNEXTLINE(misc-include-cleaner); this is in the <cstdlib>
     return detail::read(name, ::getenv);
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 std::string secure_getenv(const std::string& name)
 {
     return detail::read(name, ::secure_getenv);
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void setenv(const std::string& name, const std::string& value, bool overwrite)
 {
     detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void unsetenv(const std::string& name)
 {
     detail::write(name, ::unsetenv);
