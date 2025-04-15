@@ -12,13 +12,13 @@ namespace burda::env
 /// @param name name of environment variable
 /// @return Environment variable value or an empty string
 /// @throws std::invalid_argument if name is empty, std::system_error
-inline [[nodiscard]] std::string getenv(const std::string& name);
+[[nodiscard]] inline std::string getenv(const std::string& name);
 
 /// @brief Reads environment variable using "secure_getenv" in a thread-safe manner.
 /// @param name name of environment variable
 /// @return Environment variable value or an empty string
 /// @see burda::env::getenv
-inline [[nodiscard]] std::string secure_getenv(const std::string& name);
+[[nodiscard]] inline std::string secure_getenv(const std::string& name);
 
 /// @brief Sets environment variable using "setenv" in a thread-safe manner.
 /// @param name name of environment variable
