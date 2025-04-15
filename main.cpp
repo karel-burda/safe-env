@@ -5,6 +5,7 @@
 #include <atomic>
 #include <cassert>
 #include <chrono>
+// NOLINTNEXTLINE(misc-include-cleaner); needed for std::size_t
 #include <cstdint>
 #include <future>
 #include <stdexcept>
@@ -67,6 +68,7 @@ void test_multi_threaded()
 
     const auto runner = [&](const auto function)
     {
+        // NOLINTNEXTLINE(misc-include-cleaner); <cstdint> is being included
         std::size_t iterations = 0;
 
         while(run)
