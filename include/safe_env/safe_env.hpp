@@ -1,8 +1,6 @@
 #ifndef SAFE_ENV_SAFE_ENV_HPP
 #define SAFE_ENV_SAFE_ENV_HPP
 
-#include "safe_env/safe_env_impl.hpp"
-
 #include <string>
 
 /// @brief Free functions that wrap work with environment variables in a thread-safe manner.
@@ -32,5 +30,7 @@ inline void setenv(const std::string& name, const std::string& value, bool overw
 /// @throws std::invalid_argument if name is empty, std::system_error
 inline void unsetenv(const std::string& name);
 } // namespace burda::env
+
+#include "safe_env/safe_env_impl.hpp"
 
 #endif // SAFE_ENV_SAFE_ENV_HPP
