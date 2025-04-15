@@ -78,4 +78,5 @@ void unsetenv(const std::string& name)
     detail::write(name, ::unsetenv);
 }
 } // namespace burda::env
+
 #endif // SAFE_ENV_SAFE_ENV_IMPL_HPP
