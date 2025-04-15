@@ -82,6 +82,7 @@ void setenv(const std::string& name, const std::string& value, bool overwrite)
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 void unsetenv(const std::string& name)
 {
+    // NOLINTNEXTLINE(misc-include-cleaner); the "unsetenv" is in the <cstdlib>
     detail::write(name, ::unsetenv);
 }
 } // namespace burda::env
