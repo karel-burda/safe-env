@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  COMPILER_FLAGS: main.cpp -I include -std=c++20 -O3 -Wall -Wextra -pedantic -Wshadow -Wunused -Wconversion -Werror
+  COMPILER_FLAGS: "main.cpp -I include -std=c++20 -O3 -Wall -Wextra -pedantic -Wshadow -Wunused -Wconversion -Werror"
 
 jobs:
   build_and_test:
