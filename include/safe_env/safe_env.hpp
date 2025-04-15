@@ -31,6 +31,7 @@ inline void setenv(const std::string& name, const std::string& value, bool overw
 inline void unsetenv(const std::string& name);
 } // namespace burda::env
 
+// NOLINTNEXTLINE(misc-include-cleaner); this include here is by purpose
 #include "safe_env/safe_env_impl.hpp"
 
 #endif // SAFE_ENV_SAFE_ENV_HPP
