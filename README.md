@@ -5,7 +5,7 @@
 ![CI](https://github.com/karel-burda/safe-env/actions/workflows/c-cpp.yml/badge.svg)
 
 # Introduction
-Simple C++ single-header **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
+Simple C++ header-only **thread-safe** wrapper around `setenv`, `getenv`, `secure_getenv` and `unsetenv`.
 `getenv` and `secure_getenv` functions return copy of `std::string`, so the return value might be safely manipulated with.
 
 Wrapper throws C++ exceptions: `std::system_error` if OS specific functions failed and `std::invalid_argument` if called with wrong arguments (empty variable name).
@@ -18,7 +18,7 @@ Wrapper implements:
 * `setenv`
 * `unsetenv`
 
-Implemented and documented at the [safe_env.hpp](include/safe_env/safe_env.hpp).
+Documented and implemented at the [safe_env.hpp](include/safe_env/safe_env.hpp), [safe_env_impl.hpp](include/safe_env/safe_env)impl.hpp) resp..
 
 # Example
 ```cpp
