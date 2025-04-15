@@ -18,7 +18,7 @@ Wrapper implements:
 * `setenv`
 * `unsetenv`
 
-Documented and implemented at the [safe_env.hpp](include/safe_env/safe_env.hpp), [safe_env_impl.hpp](include/safe_env/safe_env)impl.hpp) resp..
+Documented and implemented at the [safe_env.hpp](include/safe_env/safe_env.hpp), [safe_env_impl.hpp](include/safe_env/safe_env_impl.hpp) resp.
 
 # Example
 ```cpp
