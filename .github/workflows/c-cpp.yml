@@ -16,13 +16,13 @@ jobs:
       - name: g++
         run: |
              g++ --version
-             g++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
+             g++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Wunused -Wconversion -Werror
              ./a.out
   
       - name: clang++
         run: |
              clang++ --version
-             clang++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Werror
+             clang++ main.cpp -I include -std=c++20 -O2 -Wall -Wextra -pedantic -Wshadow -Wunused -Wconversion -Werror
              ./a.out
 
   static_analysis:
