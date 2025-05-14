@@ -28,7 +28,7 @@ template<typename F>
 
     std::shared_lock read_lock{mtx};
 
-    if (char* result = getter(name.c_str()))
+    if (char* result = getter(name.c_str())) [[unlikely]]
     {
         read_lock.unlock();
 
