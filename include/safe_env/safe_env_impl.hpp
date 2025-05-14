@@ -28,7 +28,7 @@ template<typename F>
 
     std::shared_lock read_lock{mtx};
 
-    if (char* result = getter(name.c_str()))
+    if (char* result = getter(name.c_str())) [[unlikely]]
     {
         read_lock.unlock();
 
@@ -73,7 +73,7 @@ std::string secure_getenv(const std::string& name)
 }
 
 // NOLINTNEXTLINE(misc-definitions-in-headers)
-void setenv(const std::string& name, const std::string& value, bool overwrite)
+void setenv(const std::string& name, const std::string& value, const bool overwrite)
 {
     // NOLINTNEXTLINE(misc-include-cleaner); the "setenv" is in the <cstdlib>
     detail::write(name, ::setenv, value.c_str(), static_cast<int>(overwrite));
